@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>TravelEasy — Intelligent Travel &amp; Spend Control Platform for 2027 NPN Salesforce Hackathon</description>
+    <label>TravelEasy</label>
+    <tabs>standard-home</tabs>
+    <tabs>Travel_Request__c</tabs>
+    <tabs>Expense_Report__c</tabs>
+    <tabs>Expense_Exception__c</tabs>
+    <tabs>Reimbursement__c</tabs>
+    <tabs>Integration_Log__c</tabs>
+</CustomApplication>

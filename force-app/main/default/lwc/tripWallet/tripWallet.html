@@ -1,0 +1,89 @@
+<template>
+    <lightning-card title="Trip Wallet — Spend Control Dashboard" icon-name="custom:custom41">
+        <div class="slds-m-around_medium">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading Trip Wallet data..." size="medium"></lightning-spinner>
+            </template>
+
+            <template if:true={tripSummary}>
+                <!-- Budget Summary Header Grid -->
+                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-box slds-box_x-small slds-text-align_center slds-theme_shade">
+                            <div class="slds-text-color_weak slds-text-title_caps">Estimated Budget</div>
+                            <div class="slds-text-heading_medium slds-m-top_xx-small">₹{tripSummary.estimatedCost}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-box slds-box_x-small slds-text-align_center slds-theme_shade">
+                            <div class="slds-text-color_weak slds-text-title_caps">Actual Spent</div>
+                            <div class="slds-text-heading_medium slds-m-top_xx-small slds-text-color_error">{tripSummary.actualCost}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-box slds-box_x-small slds-text-align_center slds-theme_shade">
+                            <div class="slds-text-color_weak slds-text-title_caps">Remaining Budget</div>
+                            <div class="slds-text-heading_medium slds-m-top_xx-small">{tripSummary.remainingBudget}</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-box slds-box_x-small slds-text-align_center slds-theme_shade">
+                            <div class="slds-text-color_weak slds-text-title_caps">Budget Utilization</div>
+                            <div class="slds-text-heading_medium slds-m-top_xx-small">{tripSummary.budgetUtilization}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Utilization Bar -->
+                <div class="slds-m-bottom_large">
+                    <lightning-progress-bar value={tripSummary.budgetUtilization} size="large" variant="circular"></lightning-progress-bar>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                    <h3 class="slds-text-heading_small">Expense Line Items & Smart Controls</h3>
+                    <lightning-button label="Add Expense Item" icon-name="utility:add" variant="brand" onclick={toggleAddForm}></lightning-button>
+                </div>
+
+                <!-- Expense Items Table -->
+                <template if:true={expenseItems.length}>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">Category</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Vendor</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Policy Evaluation</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={expenseItems} for:item="item">
+                                <tr key={item.Id}>
+                                    <td>{item.Expense_Category__c}</td>
+                                    <td>{item.Expense_Date__c}</td>
+                                    <td>{item.Vendor__c}</td>
+                                    <td>₹{item.Amount__c}</td>
+                                    <td>
+                                        <span class={item.badgeClass}>{item.Policy_Result__c}</span>
+                                    </td>
+                                    <td>{item.Validation_Status__c}</td>
+                                    <td>
+                                        <template if:true={item.Receipt_Attached__c}>
+                                            <lightning-badge label="Attached" icon-name="utility:check"></lightning-badge>
+                                        </template>
+                                        <template if:false={item.Receipt_Attached__c}>
+                                            <lightning-badge label="Missing" icon-name="utility:warning"></lightning-badge>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

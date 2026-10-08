@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Employee__c</field>
+        <field>Destination__c</field>
+        <field>Purpose__c</field>
+        <field>Start_Date__c</field>
+        <field>End_Date__c</field>
+        <field>Estimated_Cost__c</field>
+        <field>Status__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>true</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Approver__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Manager Approval Step</label>
+        <name>Manager_Approval_Step</name>
+    </approvalStep>
+    <description>Standard manager approval process for Travel Requests</description>
+    <entryCriteria>
+        <formula>ISPICKVAL(Status__c, 'Submitted') || ISPICKVAL(Approval_Status__c, 'Pending Approval')</formula>
+    </entryCriteria>
+    <label>Travel Request Approval Process</label>
+    <processOrder>1</processOrder>
+    <recordEditability>AdminOnly</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>
